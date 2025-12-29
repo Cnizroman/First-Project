@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отделения и банкоматы - Откуси Бабла</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #2e86c1;
+            --accent-color: #e74c3c;
+            --light-color: #ebf5fb;
+            --dark-color: #154360;
+            --money-green: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Мобильный хедер */
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--light-color);
+            font-style: italic;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        /* Мобильная навигация */
+        nav {
+            width: 100%;
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        nav ul li {
+            margin: 0;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: block;
+            text-align: center;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .page-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            padding: 0 10px;
+        }
+        
+        .branches-section {
+            padding: 50px 0;
+        }
+        
+        .search-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .search-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+        
+        .search-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .locations-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        .locations-list {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .location-item {
+            padding: 18px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .location-item:hover {
+            background: var(--light-color);
+        }
+        
+        .location-item.active {
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 8px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        
+        .location-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--light-color);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .location-item.active .location-type {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .location-item h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        
+        .location-item p {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: #666;
+        }
+        
+        .location-item.active p {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .location-hours {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .location-item.active .location-hours {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .location-status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-open {
+            background: var(--money-green);
+            color: white;
+        }
+        
+        .status-closed {
+            background: #ccc;
+            color: #666;
+        }
+        
+        .map-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            height: 400px;
+            order: -1;
+        }
+        
+        .map-placeholder {
+            background: #f8f9fa;
+            border-radius: 8px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.95rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        
+        .stat-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Футер для мобильных */
+        footer {
+            background: linear-gradient(to right, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+        
+        .footer-column p, .footer-column ul {
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        
+        /* Медиа-запросы для планшетов */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+                text-align: left;
+            }
+            
+            nav ul {
+                flex-wrap: nowrap;
+                gap: 15px;
+            }
+            
+            nav ul li a {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            
+            .page-header {
+                padding: 70px 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.2rem;
+            }
+            
+            .search-filters {
+                padding: 30px 25px;
+            }
+            
+            .search-form {
+                grid-template-columns: 2fr 1fr 1fr auto;
+                gap: 15px;
+                align-items: end;
+            }
+            
+            .search-btn {
+                width: auto;
+            }
+            
+            .locations-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            
+            .map-container {
+                order: 0;
+                height: 500px;
+                padding: 30px;
+            }
+            
+            .locations-list {
+                padding: 30px 25px;
+                max-height: 500px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Медиа-запросы для десктопов */
+        @media (min-width: 992px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.9rem;
+            }
+            
+            nav ul li a {
+                font-size: 1rem;
+            }
+            
+            .locations-list {
+                max-height: 600px;
+            }
+            
+            .map-container {
+                height: 600px;
+            }
+            
+            .stats-grid {
+                gap: 25px;
+            }
+            
+            .stat-card {
+                padding: 30px 25px;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://platform.kodland.org//uploads/filesharing_tasks/task_47066/students/student_rknjazev99407/137498702_1094725030976965_5901316285696199741_n.jpeg" alt="Логотип банка">
+                    </div>
+                    <div class="logo-text">
+                        <h1>Коммерческий Банк «Откуси Бабла»</h1>
+                        <span>«Если вы у нас, у вас явно плохи дела»</span>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="products.html">Продукты</a></li>
+                        <li><a href="how-to.html">Как получить</a></li>
+                        <li><a href="investment.html">Инвестиции</a></li>
+                        <li><a href="testimonials.html">Отзывы</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Отделения и банкоматы</h1>
+            <p>Найдите ближайшее отделение или банкомат</p>
+        </div>
+    </section>
+
+    <section class="branches-section">
+        <div class="container">
+            <div class="search-filters">
+                <form class="search-form">
+                    <div class="form-group">
+                        <label for="search">Поиск по адресу</label>
+                        <input type="text" id="search" class="form-control" placeholder="Введите адрес или район">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="type">Тип объекта</label>
+                        <select id="type" class="form-control">
+                            <option value="all">Все объекты</option>
+                            <option value="branch">Отделения</option>
+                            <option value="atm">Банкоматы</option>
+                            <option value="terminal">Платежные терминалы</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Услуга</label>
+                        <select id="service" class="form-control">
+                            <option value="all">Все услуги</option>
+                            <option value="cash">Выдача наличных</option>
+                            <option value="deposit">Прием наличных</option>
+                            <option value="payment">Оплата услуг</option>
+                            <option value="consultation">Консультация</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-search"></i> Найти
+                    </button>
+                </form>
+            </div>
+
+            <div class="locations-grid">
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        <div>
+                            <i class="fas fa-map-marked-alt" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--secondary-color);"></i>
+                            <h3>Карта отделений и банкоматов</h3>
+                            <p>Выберите объект из списка для просмотра на карте</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="locations-list">
+                    <div class="location-item active">
+                        <div class="location-type">Отделение • Центральный офис</div>
+                        <h3>ул. Финансовое дно, д. 21</h3>
+                        <p>Красноярск, Центральный административный округ</p>
+                        <div class="location-hours">
+                            <i class="fas fa-clock"></i> Пн-Пт: 9:00-20:00
+                            <span class="location-status status-open">Открыто</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-type">Банкомат • Круглосуточный</div>
+                        <h3>ТЦ "Молодежный", 1 этаж</h3>
+                        <p>Красноярск, пр. Мира, д. 12</p>
+                        <div class="location-hours">
+                            <i class="fas fa-clock"></i> Круглосуточно
+                            <span class="location-status status-open">Открыто</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-type">Отделение • Студенческое</div>
+                        <h3>ул. Студенческая, д. 25</h3>
+                        <p>Красноярск, район Солнечный</p>
+                        <div class="location-hours">
+                            <i class="fas fa-clock"></i> Пн-Пт: 10:00-19:00
+                            <span class="location-status status-closed">Закрыто</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-type">Банкомат • С приемом наличных</div>
+                        <h3>Остановка "Сергея Лазо"</h3>
+                        <p>Красноярск, торговый комплекс Мост</p>
+                        <div class="location-hours">
+                            <i class="fas fa-clock"></i> 6:00-23:00
+                            <span class="location-status status-open">Открыто</span>
+                        </div>
+                    </div>
+                    
+                    <div class="location-item">
+                        <div class="location-type">Терминал • Оплата услуг</div>
+                        <h3>ТРЦ "Планета"</h3>
+                        <p>Красноярск, Добровольческой-Бригады, д. 11</p>
+                        <div class="location-hours">
+                            <i class="fas fa-clock"></i> 10:00-22:00
+                            <span class="location-status status-open">Открыто</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">47</div>
+                    <p>Отделений в Красноярске</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">256</div>
+                    <p>Банкоматов</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">89</div>
+                    <p>Платежных терминалов</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <p>Круглосуточные банкоматы</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Откуси Бабла</h3>
+                    <p>Лучший финансовый помощник для молодежи</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-phone"></i> 8-995-074-32-24</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="d3bca7b8a6a0bafdb1b2b1bfb2e293b4beb2babffdb0bcbe">[email&#160;protected]</span></a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Отделения</h3>
+                    <ul>
+                        <li><a href="branches.html"><i class="fas fa-map-marker-alt"></i> Найти отделение</a></li>
+                        <li><a href="branches.html"><i class="fas fa-money-bill-wave"></i> Банкоматы</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 "Откуси Бабла". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        // Location selection
+        const locationItems = document.querySelectorAll('.location-item');
+        
+        locationItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                locationItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                });
+                
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Update map placeholder (in real app this would show actual location on map)
+                const mapPlaceholder = document.querySelector('.map-placeholder');
+                const locationName = this.querySelector('h3').textContent;
+                const locationAddress = this.querySelector('p').textContent;
+                const locationHours = this.querySelector('.location-hours').innerHTML;
+                
+                mapPlaceholder.innerHTML = `
+                    <div style="text-align: center;">
+                        <i class="fas fa-map-marker-alt" style="font-size: 2.5rem; margin-bottom: 15px; color: var(--accent-color);"></i>
+                        <h3 style="margin-bottom: 10px; font-size: 1.1rem;">${locationName}</h3>
+                        <p style="margin-bottom: 15px; font-size: 0.9rem;">${locationAddress}</p>
+                        <div style="margin-top: 15px; padding: 12px; background: var(--light-color); border-radius: 8px; font-size: 0.85rem;">
+                            <strong>Режим работы:</strong><br>
+                            ${locationHours}
+                        </div>
+                    </div>
+                `;
+            });
+        });
+
+        // Search form submission
+        const searchForm = document.querySelector('.search-form');
+        
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Поиск выполнен! В реальном приложении здесь будет фильтрация списка отделений.');
+        });
+    </script>
+</body>
+</html>

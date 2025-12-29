@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продукты - Откуси Бабла</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #2e86c1;
+            --accent-color: #e74c3c;
+            --light-color: #ebf5fb;
+            --dark-color: #154360;
+            --money-green: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Мобильный хедер */
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--light-color);
+            font-style: italic;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        /* Мобильная навигация */
+        nav {
+            width: 100%;
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        nav ul li {
+            margin: 0;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: block;
+            text-align: center;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .page-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            padding: 0 10px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 50px 0;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .product-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .product-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .product-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-features li:before {
+            content: "✓";
+            color: var(--money-green);
+            margin-right: 10px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .product-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .product-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .product-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Футер для мобильных */
+        footer {
+            background: linear-gradient(to right, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+        
+        .footer-column p, .footer-column ul {
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        
+        /* Медиа-запросы для планшетов */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+                text-align: left;
+            }
+            
+            nav ul {
+                flex-wrap: nowrap;
+                gap: 15px;
+            }
+            
+            nav ul li a {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            
+            .page-header {
+                padding: 70px 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+                padding: 70px 0;
+            }
+            
+            .product-card {
+                padding: 30px 25px;
+            }
+            
+            .product-card h3 {
+                font-size: 1.4rem;
+            }
+            
+            .product-button {
+                width: auto;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Медиа-запросы для десктопов */
+        @media (min-width: 992px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.9rem;
+            }
+            
+            nav ul li a {
+                font-size: 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .product-card h3 {
+                font-size: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Для очень больших экранов - 4 колонки */
+        @media (min-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://platform.kodland.org//uploads/filesharing_tasks/task_47066/students/student_rknjazev99407/137498702_1094725030976965_5901316285696199741_n.jpeg" alt="Логотип банка">
+                    </div>
+                    <div class="logo-text">
+                        <h1>Коммерческий Банк «Откуси Бабла»</h1>
+                        <span>«Мы не несём ответственности, даже если очень захотим»</span>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="products.html">Продукты</a></li>
+                        <li><a href="how-to.html">Как получить</a></li>
+                        <li><a href="investment.html">Инвестиции</a></li>
+                        <li><a href="testimonials.html">Отзывы</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Наши продукты</h1>
+            <p>Выберите финансовый инструмент, который подходит именно вам</p>
+        </div>
+    </section>
+
+    <section class="products-grid">
+        <div class="container">
+            <div class="product-card">
+                <h3>Кредитная карта "Акула"</h3>
+                <p>Идеальное решение для повседневных трат и непредвиденных расходов</p>
+                <ul class="product-features">
+                    <li>Лимит до 100 000 рублей</li>
+                    <li>Беспроцентный период 70 дней</li>
+                    <li>Кэшбэк до 10%</li>
+                    <li>Бесплатное обслуживание</li>
+                    <li>Мгновенное одобрение</li>
+                </ul>
+                <a href="credit-cards.html" class="product-button">Оформить карту</a>
+            </div>
+
+            <div class="product-card">
+                <h3>Займ "На каблуке"</h3>
+                <p>Срочные деньги без лишних вопросов и проверок</p>
+                <ul class="product-features">
+                    <li>До 30 000 рублей</li>
+                    <li>Срок до 30 дней</li>
+                    <li>Одобрение за 5 минут</li>
+                    <li>Без справок о доходах</li>
+                    <li>Деньги на карту сразу</li>
+                </ul>
+                <a href="loans.html" class="product-button">Получить займ</a>
+            </div>
+
+            <div class="product-card">
+                <h3>Ипотека "От родителей"</h3>
+                <p>Собственное жилье без подтверждения дохода</p>
+                <ul class="product-features">
+                    <li>Первоначальный взнос от 10%</li>
+                    <li>Ставка от 5% годовых</li>
+                    <li>Возраст от 18 лет</li>
+                    <li>Без справки 2-НДФЛ</li>
+                    <li>Рассмотрение за 1 день</li>
+                </ul>
+                <a href="mortgage.html" class="product-button">Узнать об ипотеке</a>
+            </div>
+
+            <div class="product-card">
+                <h3>Вклад "Бабушкины сбережения"</h3>
+                <p>Надежное хранение и приумножение ваших средств</p>
+                <ul class="product-features">
+                    <li>Ставка до 8% годовых</li>
+                    <li>Пополнение и снятие</li>
+                    <li>Ежемесячная капитализация</li>
+                    <li>Страхование вклада</li>
+                    <li>Онлайн-управление</li>
+                </ul>
+                <a href="deposits.html" class="product-button">Открыть вклад</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Откуси Бабла</h3>
+                    <p>Лучший финансовый помощник для молодежи. Деньги когда нужно, без лишних вопросов.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-phone"></i> 8-995-074-32-24</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="d3bca7b8a6a0bafdb1b2b1bfb2e293b4beb2babffdb0bcbe">[email&#160;protected]</span></a></li>
+                        <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> г. Красноярск, ул. Финансовое дно, д. 21</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Продукты</h3>
+                    <ul>
+                        <li><a href="credit-cards.html"><i class="fas fa-credit-card"></i> Кредитные карты</a></li>
+                        <li><a href="loans.html"><i class="fas fa-hand-holding-usd"></i> Займы</a></li>
+                        <li><a href="mortgage.html"><i class="fas fa-home"></i> Ипотека</a></li>
+                        <li><a href="deposits.html"><i class="fas fa-piggy-bank"></i> Вклады</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul>
+                        <li><a href="faq.html"><i class="fas fa-question-circle"></i> Частые вопросы</a></li>
+                        <li><a href="consultant.html"><i class="fas fa-headset"></i> Онлайн-консультант</a></li>
+                        <li><a href="branches.html"><i class="fas fa-map-marker-alt"></i> Отделения и банкоматы</a></li>
+                        <li><a href="feedback.html"><i class="fas fa-comment"></i> Обратная связь</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 "Откуси бабла". Все права защищены. Лицензия ЦБ РФ № 993 от 21.04.2025</p>
+            </div>
+        </div>
+    </footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

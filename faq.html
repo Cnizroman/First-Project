@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Частые вопросы - Откуси Бабла</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #2e86c1;
+            --accent-color: #e74c3c;
+            --light-color: #ebf5fb;
+            --dark-color: #154360;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Мобильный хедер */
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: white;
+            line-height: 1.2;
+        }
+        
+        .logo-text span {
+            font-size: 0.8rem;
+            color: var(--light-color);
+            font-style: italic;
+            display: block;
+            margin-top: 3px;
+        }
+        
+        /* Мобильная навигация */
+        nav {
+            width: 100%;
+        }
+        
+        nav ul {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        nav ul li {
+            margin: 0;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: block;
+            text-align: center;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .page-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .page-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        
+        .page-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            padding: 0 10px;
+        }
+        
+        .faq-section {
+            padding: 50px 0;
+        }
+        
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        
+        .category-btn.active {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 18px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .faq-question:hover {
+            background: var(--light-color);
+        }
+        
+        .faq-answer {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .faq-answer.active {
+            padding: 0 15px 18px;
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 0;
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .contact-promo {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .contact-promo h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .contact-promo p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .promo-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .promo-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+        
+        .promo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Футер для мобильных */
+        footer {
+            background: linear-gradient(to right, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            color: var(--light-color);
+            font-size: 1.2rem;
+        }
+        
+        .footer-column p, .footer-column ul {
+            font-size: 0.9rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+        
+        /* Медиа-запросы для планшетов */
+        @media (min-width: 768px) {
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+                text-align: left;
+            }
+            
+            nav ul {
+                flex-wrap: nowrap;
+                gap: 15px;
+            }
+            
+            nav ul li a {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            
+            .page-header {
+                padding: 70px 0;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-header p {
+                font-size: 1.2rem;
+            }
+            
+            .faq-categories {
+                gap: 15px;
+                margin-bottom: 40px;
+            }
+            
+            .category-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .faq-question {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                padding: 0 20px;
+                font-size: 0.95rem;
+            }
+            
+            .faq-answer.active {
+                padding: 0 20px 20px;
+            }
+            
+            .contact-promo {
+                padding: 40px;
+            }
+            
+            .contact-promo h2 {
+                font-size: 1.8rem;
+            }
+            
+            .promo-buttons {
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .promo-btn {
+                padding: 15px 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        /* Медиа-запросы для десктопов */
+        @media (min-width: 992px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .logo-text span {
+                font-size: 0.9rem;
+            }
+            
+            nav ul li a {
+                font-size: 1rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .promo-buttons {
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://platform.kodland.org//uploads/filesharing_tasks/task_47066/students/student_rknjazev99407/137498702_1094725030976965_5901316285696199741_n.jpeg" alt="Логотип банка">
+                    </div>
+                    <div class="logo-text">
+                        <h1>Коммерческий Банк «Откуси Бабла»</h1>
+                        <span>«Наш сервис идеально подходит для тех, кто уже всё простил»</span>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="products.html">Продукты</a></li>
+                        <li><a href="how-to.html">Как получить</a></li>
+                        <li><a href="investment.html">Инвестиции</a></li>
+                        <li><a href="testimonials.html">Отзывы</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Частые вопросы</h1>
+            <p>Ответы на самые популярные вопросы о наших услугах</p>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-categories">
+                <button class="category-btn active" data-category="all">Все вопросы</button>
+                <button class="category-btn" data-category="credit">Кредиты</button>
+                <button class="category-btn" data-category="cards">Карты</button>
+                <button class="category-btn" data-category="deposits">Вклады</button>
+                <button class="category-btn" data-category="general">Общие</button>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item" data-category="credit">
+                    <div class="faq-question">
+                        <span>Какие документы нужны для получения займа?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Для получения займа вам понадобится только паспорт гражданина РФ. Мы не требуем справок о доходах, поручителей или дополнительных документов. Вся процедура занимает не более 5 минут онлайн.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="cards">
+                    <div class="faq-question">
+                        <span>Сколько времени занимает выпуск кредитной карты?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Выпуск виртуальной карты происходит моментально после одобрения заявки. Физическая карта доставляется курьером в течение 1-3 рабочих дней в удобное для вас место.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="deposits">
+                    <div class="faq-question">
+                        <span>Застрахованы ли мои вклады?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Да, все вклады в нашем банке застрахованы государственной системой страхования вкладов. Максимальная сумма страхового возмещения - 1 400 000 рублей на одного вкладчика.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="general">
+                    <div class="faq-question">
+                        <span>С какого возраста можно пользоваться вашими услугами?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Мы предоставляем услуги гражданам РФ, достигшим 18 лет. Для некоторых продуктов (например, студенческой карты) мы можем рассмотреть заявки от лиц, достигших 16 лет, при наличии согласия родителей.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="credit">
+                    <div class="faq-question">
+                        <span>Что будет, если я не смогу вовремя вернуть займ?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Мы всегда идем навстречу нашим клиентам! Если у вас возникли временные трудности, вы можете обратиться в службу поддержки для реструктуризации долга. Однако помните: "Не беспокойтесь, вы точно не уйдёте от последствий" - мы найдем способ вернуть наши деньги!</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="cards">
+                    <div class="faq-question">
+                        <span>Есть ли комиссия за снятие наличных?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Да, комиссия за снятие наличных составляет 3% от суммы, но не менее 300 рублей. Рекомендуем использовать карту для безналичных расчетов - это выгоднее и безопаснее.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-promo">
+                <h2>Не нашли ответ на свой вопрос?</h2>
+                <p>Наша служба поддержки всегда готова помочь вам!</p>
+                <div class="promo-buttons">
+                    <a href="contact.html" class="promo-btn btn-primary">Написать нам</a>
+                    <a href="consultant.html" class="promo-btn btn-secondary">Онлайн-консультант</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Откуси Бабла</h3>
+                    <p>Лучший финансовый помощник для молодежи. Деньги когда нужно, без лишних вопросов.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="contact.html"><i class="fas fa-phone"></i> 8-995-074-32-24</a></li>
+                        <li><a href="contact.html"><i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="d3bca7b8a6a0bafdb1b2b1bfb2e293b4beb2babffdb0bcbe">[email&#160;protected]</span></a></li>
+                        <li><a href="contact.html"><i class="fas fa-map-marker-alt"></i> г. Красноярск, ул. Финансовое дно, д. 21</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Продукты</h3>
+                    <ul>
+                        <li><a href="credit-cards.html">Кредитные карты</a></li>
+                        <li><a href="loans.html">Займы</a></li>
+                        <li><a href="mortgage.html">Ипотека</a></li>
+                        <li><a href="deposits.html">Вклады</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Помощь</h3>
+                    <ul>
+                        <li><a href="faq.html">Частые вопросы</a></li>
+                        <li><a href="consultant.html">Онлайн-консультант</a></li>
+                        <li><a href="branches.html">Отделения и банкоматы</a></li>
+                        <li><a href="feedback.html">Обратная связь</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 "Откуси бабла". Все права защищены. Лицензия ЦБ РФ № 993 от 21.04.2025</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        // FAQ accordion
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.faq-answer').classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                    item.querySelector('.faq-answer').classList.add('active');
+                }
+            });
+        });
+
+        // Category filtering
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.dataset.category;
+                
+                // Update active button
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Filter items
+                faqItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
