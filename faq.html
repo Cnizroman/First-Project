@@ -12,6 +12,7 @@
             --accent-color: #e74c3c;
             --light-color: #ebf5fb;
             --dark-color: #154360;
+            --money-green: #27ae60;
         }
         
         * {
@@ -35,17 +36,99 @@
             padding: 0 15px;
         }
         
-        /* Мобильный хедер */
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 500px; }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 1; max-height: 500px; }
+            to { opacity: 0; max-height: 0; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(46, 134, 193, 0.3); }
+            50% { box-shadow: 0 0 15px rgba(46, 134, 193, 0.5); }
+        }
+        
+        /* Мобильный хедер с анимацией */
         header {
             background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
             padding: 15px 0;
             box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+            pointer-events: none;
         }
         
         .header-content {
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .logo {
@@ -53,6 +136,7 @@
             align-items: center;
             margin-bottom: 15px;
             text-align: center;
+            animation: slideInLeft 0.8s ease-out;
         }
         
         .logo-icon {
@@ -68,6 +152,11 @@
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+        
+        .logo-icon:hover {
+            animation: rotate 1s ease-in-out;
         }
         
         .logo-icon img {
@@ -80,6 +169,7 @@
         .logo-text h1 {
             font-size: 1.5rem;
             color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             line-height: 1.2;
         }
         
@@ -87,13 +177,15 @@
             font-size: 0.8rem;
             color: var(--light-color);
             font-style: italic;
+            opacity: 0.9;
             display: block;
             margin-top: 3px;
         }
         
-        /* Мобильная навигация */
+        /* Мобильная навигация с анимацией */
         nav {
             width: 100%;
+            animation: slideInRight 0.8s ease-out 0.2s both;
         }
         
         nav ul {
@@ -106,6 +198,11 @@
         
         nav ul li {
             margin: 0;
+            transition: transform 0.3s;
+        }
+        
+        nav ul li:hover {
+            transform: translateY(-2px);
         }
         
         nav ul li a {
@@ -118,6 +215,24 @@
             font-size: 0.85rem;
             display: block;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        nav ul li a:hover::after {
+            width: 70%;
         }
         
         nav ul li a:hover {
@@ -125,26 +240,59 @@
         }
         
         .page-header {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
             color: white;
-            padding: 50px 0;
+            padding: 60px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 15s infinite alternate ease-in-out;
         }
         
         .page-header h1 {
             font-size: 1.8rem;
             margin-bottom: 15px;
             line-height: 1.3;
+            animation: fadeIn 1s ease-out 0.3s both;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
         }
         
         .page-header p {
             font-size: 1rem;
             opacity: 0.9;
             padding: 0 10px;
+            animation: fadeIn 1s ease-out 0.5s both;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .faq-section {
             padding: 50px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .faq-section::before {
+            content: '';
+            position: absolute;
+            top: 100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(46, 134, 193, 0.05) 0%, transparent 70%);
+            animation: float 20s infinite alternate;
         }
         
         .faq-categories {
@@ -153,6 +301,7 @@
             gap: 10px;
             margin-bottom: 30px;
             flex-wrap: wrap;
+            animation: fadeIn 1s ease-out 0.3s both;
         }
         
         .category-btn {
@@ -160,92 +309,229 @@
             border: 2px solid var(--secondary-color);
             color: var(--secondary-color);
             padding: 10px 15px;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-size: 0.85rem;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .category-btn:nth-child(1) { animation-delay: 0.3s; }
+        .category-btn:nth-child(2) { animation-delay: 0.4s; }
+        .category-btn:nth-child(3) { animation-delay: 0.5s; }
+        .category-btn:nth-child(4) { animation-delay: 0.6s; }
+        .category-btn:nth-child(5) { animation-delay: 0.7s; }
+        
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .category-btn:hover::before {
+            left: 100%;
         }
         
         .category-btn.active {
-            background: var(--secondary-color);
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(46, 134, 193, 0.3);
+            border-color: transparent;
+            animation: glow 2s infinite;
+        }
+        
+        .category-btn:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
         }
         
         .faq-list {
             max-width: 800px;
             margin: 0 auto;
+            animation: fadeIn 1s ease-out 0.5s both;
         }
         
         .faq-item {
             background: white;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .faq-item:nth-child(1) { animation-delay: 0.6s; }
+        .faq-item:nth-child(2) { animation-delay: 0.7s; }
+        .faq-item:nth-child(3) { animation-delay: 0.8s; }
+        .faq-item:nth-child(4) { animation-delay: 0.9s; }
+        .faq-item:nth-child(5) { animation-delay: 1.0s; }
+        .faq-item:nth-child(6) { animation-delay: 1.1s; }
+        
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+        
+        .faq-item.active {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(46, 134, 193, 0.2);
+            border-left: 4px solid var(--accent-color);
         }
         
         .faq-question {
-            padding: 18px 15px;
+            padding: 20px 15px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
             font-size: 0.95rem;
+            transition: all 0.3s;
+            position: relative;
         }
         
         .faq-question:hover {
-            background: var(--light-color);
+            background: linear-gradient(90deg, rgba(46, 134, 193, 0.05), rgba(231, 76, 60, 0.05));
+            padding-left: 20px;
+        }
+        
+        .faq-question::before {
+            content: '?';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .faq-item.active .faq-question::before {
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .faq-question span {
+            padding-left: 35px;
+            flex-grow: 1;
         }
         
         .faq-answer {
             padding: 0 15px;
             max-height: 0;
             overflow: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-size: 0.9rem;
+            opacity: 0;
+            background: linear-gradient(90deg, rgba(235, 245, 251, 0.5), rgba(255, 255, 255, 0.8));
         }
         
         .faq-answer.active {
-            padding: 0 15px 18px;
+            padding: 0 15px 20px;
             max-height: 500px;
+            opacity: 1;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        .faq-answer.closing {
+            animation: slideUp 0.3s ease-out;
         }
         
         .faq-answer p {
             margin-bottom: 0;
+            padding-left: 35px;
+            line-height: 1.6;
         }
         
         .faq-icon {
-            transition: transform 0.3s;
-            font-size: 0.9rem;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1rem;
             margin-left: 10px;
             flex-shrink: 0;
+            color: var(--secondary-color);
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(46, 134, 193, 0.1);
         }
         
         .faq-item.active .faq-icon {
             transform: rotate(180deg);
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            color: white;
+            animation: bounce 0.5s;
         }
         
         .contact-promo {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 30px 20px;
             text-align: center;
-            margin-top: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-top: 50px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out 1.2s both;
+            z-index: 1;
+        }
+        
+        .contact-promo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--accent-color), var(--money-green), var(--secondary-color));
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
         }
         
         .contact-promo h2 {
             color: var(--primary-color);
             margin-bottom: 15px;
             font-size: 1.4rem;
+            animation: fadeIn 0.5s ease-out;
         }
         
         .contact-promo p {
             font-size: 0.95rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            animation: fadeIn 0.5s ease-out 0.2s both;
         }
         
         .promo-buttons {
@@ -253,32 +539,52 @@
             flex-direction: column;
             gap: 12px;
             margin-top: 20px;
+            animation: fadeIn 0.5s ease-out 0.4s both;
         }
         
         .promo-btn {
             display: inline-block;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 14px 25px;
+            border-radius: 30px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-align: center;
             font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .promo-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
         
         .btn-primary {
-            background: var(--accent-color);
+            background: linear-gradient(45deg, var(--accent-color), #ff6b6b);
             color: white;
         }
         
         .btn-secondary {
-            background: var(--secondary-color);
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
             color: white;
         }
         
+        .promo-btn:hover::before {
+            left: 100%;
+        }
+        
         .promo-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
         
         /* Футер для мобильных */
@@ -286,6 +592,20 @@
             background: linear-gradient(to right, var(--primary-color), var(--dark-color));
             color: white;
             padding: 40px 0 20px;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-color), var(--money-green), var(--secondary-color));
+            animation: shimmer 3s infinite linear;
         }
         
         .footer-content {
@@ -295,10 +615,37 @@
             margin-bottom: 25px;
         }
         
+        .footer-column {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .footer-column:nth-child(1) { animation-delay: 0.1s; }
+        .footer-column:nth-child(2) { animation-delay: 0.2s; }
+        .footer-column:nth-child(3) { animation-delay: 0.3s; }
+        .footer-column:nth-child(4) { animation-delay: 0.4s; }
+        
         .footer-column h3 {
             margin-bottom: 15px;
             color: var(--light-color);
             font-size: 1.2rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .footer-column:hover h3::after {
+            width: 50px;
         }
         
         .footer-column p, .footer-column ul {
@@ -311,12 +658,17 @@
         
         .footer-column ul li {
             margin-bottom: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .footer-column ul li:hover {
+            transform: translateX(5px);
         }
         
         .footer-column ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -324,6 +676,15 @@
         
         .footer-column ul li a:hover {
             color: white;
+            gap: 12px;
+        }
+        
+        .footer-column ul li a i {
+            transition: transform 0.3s;
+        }
+        
+        .footer-column ul li a:hover i {
+            transform: scale(1.2);
         }
         
         .copyright {
@@ -332,6 +693,42 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: #aaa;
             font-size: 0.8rem;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+        
+        /* Анимация для денежных символов */
+        .money-float {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: moneyFloat 5s linear forwards;
+        }
+        
+        @keyframes moneyFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Пульсирующая подсказка */
+        .hint-pulse {
+            position: relative;
+        }
+        
+        .hint-pulse::after {
+            content: '👆';
+            position: absolute;
+            top: -25px;
+            right: 10px;
+            font-size: 1.2rem;
+            animation: bounce 1s infinite, pulse 2s infinite;
         }
         
         /* Медиа-запросы для планшетов */
@@ -357,7 +754,7 @@
             }
             
             .page-header {
-                padding: 70px 0;
+                padding: 80px 0;
             }
             
             .page-header h1 {
@@ -374,12 +771,12 @@
             }
             
             .category-btn {
-                padding: 12px 20px;
+                padding: 12px 25px;
                 font-size: 0.9rem;
             }
             
             .faq-question {
-                padding: 20px;
+                padding: 22px 20px;
                 font-size: 1rem;
             }
             
@@ -389,7 +786,11 @@
             }
             
             .faq-answer.active {
-                padding: 0 20px 20px;
+                padding: 0 20px 22px;
+            }
+            
+            .faq-answer p {
+                padding-left: 40px;
             }
             
             .contact-promo {
@@ -436,6 +837,10 @@
             .promo-buttons {
                 gap: 25px;
             }
+            
+            .faq-question:hover {
+                padding-left: 25px;
+            }
         }
     </style>
 </head>
@@ -476,7 +881,7 @@
     <section class="faq-section">
         <div class="container">
             <div class="faq-categories">
-                <button class="category-btn active" data-category="all">Все вопросы</button>
+                <button class="category-btn active hint-pulse" data-category="all">Все вопросы</button>
                 <button class="category-btn" data-category="credit">Кредиты</button>
                 <button class="category-btn" data-category="cards">Карты</button>
                 <button class="category-btn" data-category="deposits">Вклады</button>
@@ -598,25 +1003,83 @@
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script>
+        // Анимация "денежных" символов
+        function createMoneyAnimation(event) {
+            const symbols = ['', '', '', '', '', '', '', '', '', ''];
+            const symbol = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            const moneyElement = document.createElement('div');
+            moneyElement.className = 'money-float';
+            moneyElement.textContent = symbol;
+            moneyElement.style.left = event.clientX + 'px';
+            moneyElement.style.top = event.clientY + 'px';
+            
+            document.body.appendChild(moneyElement);
+            
+            setTimeout(() => {
+                moneyElement.remove();
+            }, 5000);
+        }
+        
         // FAQ accordion
         const faqItems = document.querySelectorAll('.faq-item');
         
         faqItems.forEach(item => {
             const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
             
             question.addEventListener('click', () => {
                 const isActive = item.classList.contains('active');
                 
-                // Close all items
-                faqItems.forEach(otherItem => {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.faq-answer').classList.remove('active');
-                });
-                
-                // Open clicked item if it wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
-                    item.querySelector('.faq-answer').classList.add('active');
+                // Анимация закрытия текущего активного элемента
+                if (isActive) {
+                    answer.classList.add('closing');
+                    setTimeout(() => {
+                        item.classList.remove('active');
+                        answer.classList.remove('active');
+                        answer.classList.remove('closing');
+                    }, 300);
+                } else {
+                    // Закрываем все открытые элементы с анимацией
+                    faqItems.forEach(otherItem => {
+                        if (otherItem.classList.contains('active')) {
+                            const otherAnswer = otherItem.querySelector('.faq-answer');
+                            otherAnswer.classList.add('closing');
+                            setTimeout(() => {
+                                otherItem.classList.remove('active');
+                                otherAnswer.classList.remove('active');
+                                otherAnswer.classList.remove('closing');
+                            }, 300);
+                        }
+                    });
+                    
+                    // Открываем выбранный элемент с анимацией
+                    setTimeout(() => {
+                        item.classList.add('active');
+                        answer.classList.add('active');
+                        
+                        // Анимация "встряски" при открытии
+                        question.style.animation = 'shake 0.5s';
+                        setTimeout(() => {
+                            question.style.animation = '';
+                        }, 500);
+                        
+                        // Создаем денежную анимацию
+                        createMoneyAnimation({
+                            clientX: question.getBoundingClientRect().left + question.offsetWidth / 2,
+                            clientY: question.getBoundingClientRect().top + question.offsetHeight / 2
+                        });
+                    }, 350);
+                }
+            });
+            
+            // Добавляем анимацию при наведении
+            question.addEventListener('mouseenter', (e) => {
+                if (!item.classList.contains('active')) {
+                    question.style.transform = 'translateX(5px)';
+                    setTimeout(() => {
+                        question.style.transform = '';
+                    }, 300);
                 }
             });
         });
@@ -625,22 +1088,119 @@
         const categoryBtns = document.querySelectorAll('.category-btn');
         
         categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
                 const category = btn.dataset.category;
                 
-                // Update active button
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                // Анимация нажатия кнопки
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 200);
                 
-                // Filter items
-                faqItems.forEach(item => {
-                    if (category === 'all' || item.dataset.category === category) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
+                // Update active button с анимацией
+                categoryBtns.forEach(b => {
+                    if (b !== btn && b.classList.contains('active')) {
+                        b.style.opacity = '0.7';
+                        setTimeout(() => {
+                            b.classList.remove('active');
+                            b.style.opacity = '';
+                        }, 200);
                     }
                 });
+                
+                btn.classList.add('active');
+                
+                // Анимация фильтрации элементов
+                faqItems.forEach(item => {
+                    const shouldShow = category === 'all' || item.dataset.category === category;
+                    
+                    if (shouldShow && item.style.display !== 'block') {
+                        item.style.display = 'block';
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            item.style.transition = 'all 0.5s ease-out';
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else if (!shouldShow && item.style.display !== 'none') {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(-20px)';
+                        
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                            item.style.opacity = '';
+                            item.style.transform = '';
+                        }, 300);
+                    }
+                });
+                
+                // Создаем анимацию для кнопки
+                createMoneyAnimation(e);
+                
+                // Убираем подсказку после первого клика
+                if (btn.classList.contains('hint-pulse')) {
+                    btn.classList.remove('hint-pulse');
+                }
             });
+        });
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показываем элементы с анимацией
+            setTimeout(() => {
+                faqItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.display = 'block';
+                        item.classList.add('visible');
+                    }, 600 + index * 100);
+                });
+            }, 300);
+            
+            // Добавляем анимацию денег на кнопки
+            const buttons = document.querySelectorAll('.promo-btn, .category-btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', createMoneyAnimation);
+            });
+            
+            // Плавное появление элементов при прокрутке
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.faq-item, .contact-promo').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+            
+            // Автоматическое открытие первого элемента через 2 секунды
+            setTimeout(() => {
+                if (faqItems.length > 0 && !document.querySelector('.faq-item.active')) {
+                    const firstItem = faqItems[0];
+                    const firstAnswer = firstItem.querySelector('.faq-answer');
+                    firstItem.classList.add('active');
+                    firstAnswer.classList.add('active');
+                    
+                    // Анимация для привлечения внимания
+                    setTimeout(() => {
+                        firstItem.style.animation = 'pulse 1s';
+                        setTimeout(() => {
+                            firstItem.style.animation = '';
+                        }, 1000);
+                    }, 500);
+                }
+            }, 2000);
         });
     </script>
 </body>
